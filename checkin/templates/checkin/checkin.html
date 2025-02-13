@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Checkin de Pedidos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f8f9fa;
+            flex-direction: column;
+            overscroll-behavior: contain;
+        }
+
+        .container {
+            max-width: 400px;
+            width: 100%;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-grow: 1;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .logo {
+            max-width: 150px;
+            display: block;
+            margin: 0 auto 20px;
+        }
+
+        .address {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        .form-control {
+            font-size: 1.1rem;
+            padding: 10px;
+        }
+
+        .btn-primary {
+            background-color: #43C59E;
+            border-color: #43C59E;
+            font-size: 1.1rem;
+            padding: 10px;
+        }
+
+        .btn-primary:hover {
+            background-color: #369a74;
+            border-color: #369a74;
+            color: #fff;
+        }
+
+        .rodape {
+            font-size: 0.9rem;
+            color: #777;
+            margin-top: 20px;
+        }
+
+        /* Ajustes para telas maiores (ex: iPhone 13) */
+        @media (min-width: 768px) {
+            .address {
+                font-size: 1.4rem;
+            }
+
+            .form-control {
+                font-size: 1.3rem;
+            }
+
+            .btn-primary {
+                font-size: 1.3rem;
+            }
+
+            .rodape {
+                font-size: 1rem;
+            }
+        }
+
+        /* Responsividade para telas menores (celulares e tablets) */
+        @media (max-width: 767px) {
+            .address {
+                font-size: 1.1rem;
+            }
+
+            .form-control {
+                font-size: 1.1rem;
+            }
+
+            .btn-primary {
+                font-size: 1.1rem;
+            }
+
+            .rodape {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container text-center">
+        {% load static %}
+        <img src="{% static 'img/zeenx-ofi.png' %}" alt="Logo da Zeenx" class="logo">
+        <p class="address">Unidade - Sorocaba Itavuvu</p>
+
+        <h2 class="mb-4">Check-in do Pedido</h2>
+
+        {% if messages %}
+        {% for message in messages %}
+        <div id="alert-message" class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-danger{% endif %}" role="alert">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        <form id="checkinForm" method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="id_numero_pedido" class="form-label">Número do Pedido</label>
+                <input type="text" name="numero_pedido" id="id_numero_pedido" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="id_nome_entregador" class="form-label">Seu Nome</label>
+                <input type="text" name="nome_entregador" id="id_nome_entregador" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Enviar Check-in</button>
+        </form>
+
+        <p class="rodape">Zeenx &copy; {{ year }}</p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.getElementById('id_numero_pedido').addEventListener('input', function () {
+            this.value = this.value.toUpperCase();
+        });
+
+        document.getElementById('id_nome_entregador').addEventListener('input', function () {
+            this.value = this.value.toUpperCase();
+        });
+
+        const alertMessage = document.getElementById('alert-message');
+        if (alertMessage) {
+            setTimeout(() => {
+                alertMessage.remove();
+                document.getElementById('checkinForm').reset();
+            }, 3000);
+        }
+
+        const year = new Date().getFullYear();
+        document.querySelector('.rodape').innerHTML = `Zeenx &copy; ${year}`;
+    </script>
+</body>
+
+</html>
