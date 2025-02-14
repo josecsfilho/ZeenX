@@ -80,7 +80,7 @@ def checkin_view(request):
 
 # 🔹 MONITOR DE PEDIDOS
 def monitor_view(request):
-    pedidos_ativos = Pedido.objects.filter(concluido=False).order_by('data_criacao')[:10]
+    pedidos_ativos = Pedido.objects.filter(concluido=False).order_by('data_criacao')[:20]
     ultimos_concluidos = Pedido.objects.filter(concluido=True).order_by('-data_criacao')[:3]
 
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
@@ -96,7 +96,7 @@ def monitor_view(request):
 
 # 🔹 ATUALIZAR PEDIDOS (AJAX)
 def atualizar_pedidos(request):
-    pedidos_pendentes = Pedido.objects.filter(concluido=False).order_by("data_criacao")
+    pedidos_pendentes = Pedido.objects.filter(concluido=False).order_by("data_criacao")[:25]
     pedidos_concluidos = Pedido.objects.filter(concluido=True).order_by("-data_criacao")[:5]
 
     paginator = Paginator(pedidos_pendentes, 6)
