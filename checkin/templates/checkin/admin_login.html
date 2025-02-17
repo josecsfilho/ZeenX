@@ -50,8 +50,9 @@
 
     <div class="login-container">
         <form method="POST">
-            {% csrf_token %}
-            <img src="https://github.com/josecsfilho/files/blob/main/VIST.png?raw=true" alt="Visto">
+            {% load static %}
+            <img src="{% static 'img/zeenx-ofi.png' %}" alt="Logo da Zeenx" class="logo">
+
             <h3 class="mb-3">Faça login</h3>
 
             {% if messages %}

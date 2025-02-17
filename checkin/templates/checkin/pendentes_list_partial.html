@@ -1,0 +1,12 @@
+<div class="list-group" id="pendentes-list">
+    {% for pedido in pedidos_pendentes %}
+        <div class="alert alert-warning d-flex justify-content-between align-items-center" role="alert" id="pedido-{{ pedido.id }}">
+            <div class="w-100 text-center">
+                Pedido #{{ pedido.numero_pedido }} - {{ pedido.nome_entregador }}
+            </div>
+            <button class="btn btn-success btn-sm concluir-btn" data-id="{{ pedido.id }}">Concluir</button>
+        </div>
+    {% empty %}
+        <div class="alert alert-warning" role="alert">Nenhum pedido encontrado.</div>
+    {% endfor %}
+</div>
